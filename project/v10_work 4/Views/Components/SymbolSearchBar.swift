@@ -8,18 +8,23 @@
 import SwiftUI
 
 struct SymbolSearchBar: View {
+    /// Internal non-optional binding used by the view.
     @Binding var selectedSymbol: MarketSymbol
+    /// When created from an optional binding, we track whether a symbol has been chosen.
+    private var isOptionalBinding: Bool
+    private var optionalSetter: ((MarketSymbol) -> Void)?
+
     @State private var searchText = ""
     @State private var searchResults: [MarketSymbol] = []
     @State private var searchStatus: SearchStatus = .idle
     @State private var showResults = false
     @State private var searchTask: Task<Void, Never>?
     @State private var recentSymbols: [MarketSymbol] = []
-    
+
     /// Clé UserDefaults pour persister l'historique
     private static let recentKey = "recentSearchedSymbols"
     private static let maxRecent = 6
-    
+
     enum SearchStatus: Equatable {
         case idle, searching, found, notFound, error(String)
         static func == (lhs: SearchStatus, rhs: SearchStatus) -> Bool {
@@ -29,6 +34,28 @@ struct SymbolSearchBar: View {
             default: return false
             }
         }
+    }
+
+    // MARK: - Initializers
+
+    /// Standard init with non-optional binding (backward compatible).
+    init(selectedSymbol: Binding<MarketSymbol>) {
+        self._selectedSymbol = selectedSymbol
+        self.isOptionalBinding = false
+        self.optionalSetter = nil
+    }
+
+    /// Init with optional binding — used when no symbol is selected by default.
+    init(selectedSymbol: Binding<MarketSymbol?>) {
+        // Use a placeholder internally; the view only displays selected-symbol info
+        // when `isOptionalBinding == false` OR when a real symbol has been set.
+        let fallback = MarketSymbol.btcDefault
+        self._selectedSymbol = Binding(
+            get: { selectedSymbol.wrappedValue ?? fallback },
+            set: { selectedSymbol.wrappedValue = $0 }
+        )
+        self.isOptionalBinding = true
+        self.optionalSetter = { selectedSymbol.wrappedValue = $0 }
     }
     
     var body: some View {
@@ -76,27 +103,29 @@ struct SymbolSearchBar: View {
                 recentSearchesView
             }
             
-            // Selected symbol info
-            HStack(spacing: AppSpacing.xs) {
-                Text(selectedSymbol.displayName)
-                    .font(AppTypography.captionMedium)
-                    .foregroundColor(AppColors.textPrimary)
-                Text("•").foregroundColor(AppColors.textTertiary)
-                Text(selectedSymbol.exchange ?? "")
-                    .font(AppTypography.captionSmall)
-                    .foregroundColor(AppColors.textSecondary)
-                Spacer()
-                if !TwelveDataService.shared.hasAPIKey {
-                    Text("Crypto uniquement")
-                        .font(.system(size: 9))
-                        .foregroundColor(.orange)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Capsule().fill(Color.orange.opacity(0.15)))
+            // Selected symbol info (hidden if optional binding and no symbol chosen yet)
+            if !isOptionalBinding || optionalSetter != nil {
+                HStack(spacing: AppSpacing.xs) {
+                    Text(selectedSymbol.displayName)
+                        .font(AppTypography.captionMedium)
+                        .foregroundColor(AppColors.textPrimary)
+                    Text("•").foregroundColor(AppColors.textTertiary)
+                    Text(selectedSymbol.exchange ?? "")
+                        .font(AppTypography.captionSmall)
+                        .foregroundColor(AppColors.textSecondary)
+                    Spacer()
+                    if !TwelveDataService.shared.hasAPIKey {
+                        Text("Crypto uniquement")
+                            .font(.system(size: 9))
+                            .foregroundColor(.orange)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Capsule().fill(Color.orange.opacity(0.15)))
+                    }
                 }
+                .padding(.horizontal, AppSpacing.xs)
+                .padding(.top, 4)
             }
-            .padding(.horizontal, AppSpacing.xs)
-            .padding(.top, 4)
             
             // Results
             if showResults && !searchResults.isEmpty {
@@ -165,19 +194,19 @@ struct SymbolSearchBar: View {
                                     .foregroundColor(typeColor(symbol.instrumentType))
                                 Text(symbol.symbol)
                                     .font(.system(size: 11, weight: .semibold))
-                                    .foregroundColor(symbol.id == selectedSymbol.id ? .orange : AppColors.textPrimary)
+                                    .foregroundColor(symbol.id == selectedSymbol.id && !isOptionalBinding ? .orange : AppColors.textPrimary)
                             }
                             .padding(.horizontal, 8)
                             .padding(.vertical, 5)
                             .background(
-                                symbol.id == selectedSymbol.id
+                                symbol.id == selectedSymbol.id && !isOptionalBinding
                                     ? Color.orange.opacity(0.12)
                                     : AppColors.cardBackground
                             )
                             .clipShape(Capsule())
                             .overlay(
                                 Capsule().stroke(
-                                    symbol.id == selectedSymbol.id
+                                    symbol.id == selectedSymbol.id && !isOptionalBinding
                                         ? Color.orange.opacity(0.4)
                                         : AppColors.border.opacity(0.2),
                                     lineWidth: 1
@@ -261,7 +290,7 @@ struct SymbolSearchBar: View {
         HStack(spacing: AppSpacing.sm) {
             Image(systemName: symbol.instrumentType.marketIcon)
                 .font(.system(size: 14))
-                .foregroundColor(symbol == selectedSymbol ? .orange : AppColors.textSecondary)
+                .foregroundColor(!isOptionalBinding && symbol == selectedSymbol ? .orange : AppColors.textSecondary)
                 .frame(width: 24)
             
             VStack(alignment: .leading, spacing: 2) {
@@ -293,7 +322,7 @@ struct SymbolSearchBar: View {
         }
         .padding(.horizontal, AppSpacing.md)
         .padding(.vertical, AppSpacing.sm)
-        .background(symbol == selectedSymbol ? Color.orange.opacity(0.08) : Color.clear)
+        .background(!isOptionalBinding && symbol == selectedSymbol ? Color.orange.opacity(0.08) : Color.clear)
     }
     
     private func typeColor(_ type: InstrumentType) -> Color {

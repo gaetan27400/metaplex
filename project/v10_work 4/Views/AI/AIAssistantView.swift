@@ -38,8 +38,8 @@ struct AIAssistantView: View {
     @State private var isLoadingVMCOsc = false
     @State private var vmcOscTimeframe: WTTimeframe = .h1
     
-    // Actif sélectionné (multi-assets)
-    @State private var selectedSymbol: MarketSymbol = .btcDefault
+    // Actif sélectionné (multi-assets) — nil par défaut, l'utilisateur doit choisir
+    @State private var selectedSymbol: MarketSymbol? = nil
     
     // Calendrier économique (pour l'analyse enrichie)
     @StateObject private var economicStore = EconomicCalendarStore.shared
@@ -101,12 +101,15 @@ struct AIAssistantView: View {
             if let initialTab = initialTab {
                 selectedTab = initialTab
             }
-            
-            // Charger les données selon l'onglet — en parallèle pour éviter le freeze
-            loadDataForTab(selectedTab)
+
+            // Charger les données uniquement si un symbole est sélectionné
+            if selectedSymbol != nil {
+                loadDataForTab(selectedTab)
+            }
         }
         .onChange(of: selectedTab) { oldValue, newValue in
-            // Charger les données en parallèle pour éviter le freeze
+            // Ne charger que si un symbole est sélectionné
+            guard selectedSymbol != nil else { return }
             loadDataForTab(newValue)
             // Déclencher l'analyse GPT si on arrive sur l'onglet Analyse
             if newValue == .analyse && gptAnalysis.isEmpty && !isLoadingGPTAnalysis {
@@ -114,6 +117,7 @@ struct AIAssistantView: View {
             }
         }
         .onChange(of: selectedSymbol) { _, newSymbol in
+            guard let newSymbol = newSymbol else { return }
             // Mettre à jour le routage API
             MarketDataService.shared.activeMarketSymbol = newSymbol
             wtSnapshot = nil
@@ -1488,7 +1492,7 @@ struct AIAssistantView: View {
             // Barre de recherche + bouton PDF + bouton Rafraîchir
             HStack(spacing: AppSpacing.sm) {
                 SymbolSearchBar(selectedSymbol: $selectedSymbol)
-                
+
                 // Bouton rafraîchir analyse
                 Button(action: {
                     Task { await loadGPTAnalysis(force: true) }
@@ -1503,8 +1507,8 @@ struct AIAssistantView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                         .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.cyan.opacity(0.3), lineWidth: 1))
                 }
-                .disabled(isLoadingGPTAnalysis)
-                
+                .disabled(isLoadingGPTAnalysis || selectedSymbol == nil)
+
                 // Bouton PDF
                 Button(action: { generateAndSharePDF() }) {
                     HStack(spacing: 4) {
@@ -1521,22 +1525,22 @@ struct AIAssistantView: View {
                     .background(LinearGradient(colors: [Color(hex: "#0066cc"), Color(hex: "#5500cc")], startPoint: .leading, endPoint: .trailing))
                     .clipShape(RoundedRectangle(cornerRadius: AppRadius.medium))
                 }
-                .disabled(isGeneratingPDF)
+                .disabled(isGeneratingPDF || selectedSymbol == nil)
             }
             .padding(.bottom, AppSpacing.xs)
             .sheet(isPresented: $showPDFShareSheet, onDismiss: { pdfShareData = nil }) {
-                if let data = pdfShareData {
-                    PDFActivityView(data: data, filename: "TradeMindset_Analyse_\(selectedSymbol.displayName).pdf")
+                if let data = pdfShareData, let sym = selectedSymbol {
+                    PDFActivityView(data: data, filename: "TradeMindset_Analyse_\(sym.displayName).pdf")
                 }
             }
-            
+
             // Carte analyse GPT
             gptAnalysisCard
-            
+
             // Liquidation Heatmap (crypto uniquement)
-            if selectedSymbol.isCrypto {
-                LiquidityHeatmapView(symbol: selectedSymbol.symbol)
-                    .id("analyse_heatmap_\(selectedSymbol.symbol)")
+            if let sym = selectedSymbol, sym.isCrypto {
+                LiquidityHeatmapView(symbol: sym.symbol)
+                    .id("analyse_heatmap_\(sym.symbol)")
             }
         }
     }
@@ -1545,9 +1549,24 @@ struct AIAssistantView: View {
 
     private var gptAnalysisCard: some View {
         Group {
-            if !gptAnalysis.isEmpty {
+            if selectedSymbol == nil {
+                // Aucun actif sélectionné → message d'invite
+                VStack(spacing: AppSpacing.sm) {
+                    Image(systemName: "magnifyingglass")
+                        .font(.system(size: 36))
+                        .foregroundColor(Color(hex: "#7B2FFF").opacity(0.4))
+                    Text(t("selectAssetToAnalyze"))
+                        .font(AppTypography.bodySmall)
+                        .foregroundColor(AppColors.textSecondary)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, AppSpacing.xl)
+                .background(Color(hex: "#131722"))
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+            } else if !gptAnalysis.isEmpty {
                 // Résultat disponible → l'afficher directement (même si refresh en cours)
-                GPTAnalysisRenderer(text: gptAnalysis, symbol: selectedSymbol.displayName, currentPrice: currentPrice)
+                GPTAnalysisRenderer(text: gptAnalysis, symbol: selectedSymbol?.displayName ?? "", currentPrice: currentPrice)
             } else if isLoadingGPTAnalysis {
                 // Loading skeleton
                 VStack(alignment: .leading, spacing: 10) {
@@ -1605,7 +1624,8 @@ struct AIAssistantView: View {
     // MARK: - Load GPT Analysis
 
     private func loadGPTAnalysis(force: Bool = false) async {
-        let sym = selectedSymbol.displayName
+        guard let activeSymbol = selectedSymbol else { return }
+        let sym = activeSymbol.displayName
         guard force || gptAnalysisSymbol != sym || gptAnalysis.isEmpty else { return }
         guard !isLoadingGPTAnalysis else { return }
 
@@ -1616,11 +1636,11 @@ struct AIAssistantView: View {
 
         // Fetch prix actuel avant d'envoyer à GPT
         // S'assurer que activeMarketSymbol est synchronisé
-        await MainActor.run { MarketDataService.shared.activeMarketSymbol = selectedSymbol }
+        await MainActor.run { MarketDataService.shared.activeMarketSymbol = activeSymbol }
 
-        if selectedSymbol.isCrypto {
+        if activeSymbol.isCrypto {
             // Crypto : Binance ticker direct
-            let binSymbol = selectedSymbol.binanceSymbol ?? selectedSymbol.symbol
+            let binSymbol = activeSymbol.binanceSymbol ?? activeSymbol.symbol
             if let priceURL = URL(string: "https://api.binance.com/api/v3/ticker/price?symbol=\(binSymbol)"),
                let (priceData, _) = try? await URLSession.shared.data(from: priceURL),
                let priceDict = try? JSONSerialization.jsonObject(with: priceData) as? [String: Any],
@@ -1630,21 +1650,20 @@ struct AIAssistantView: View {
             }
         } else {
             // Action / Forex : utiliser selectedSymbol.symbol (ex: "AAPL", pas "Apple Inc.")
-            // activeMarketSymbol est synchronisé juste au-dessus → fetchKlines routera vers Finnhub/TwelveData
             if let candles = try? await MarketDataService.shared.fetchKlines(
-                symbol: selectedSymbol.symbol, interval: "1day", limit: 1
+                symbol: activeSymbol.symbol, interval: "1day", limit: 1
             ), let last = candles.last {
                 await MainActor.run { currentPrice = last.close }
             }
         }
 
-        let symbolType: String = selectedSymbol.instrumentType.marketDisplayName
+        let symbolType: String = activeSymbol.instrumentType.marketDisplayName
 
         do {
             // Extraire les zones de liquidité majeures (crypto uniquement)
             var liquidityZones: [(price: Double, volume: Double, side: String)]? = nil
-            if selectedSymbol.isCrypto && currentPrice > 0 {
-                liquidityZones = await extractLiquidityZones(symbol: selectedSymbol.symbol, currentPrice: currentPrice)
+            if activeSymbol.isCrypto && currentPrice > 0 {
+                liquidityZones = await extractLiquidityZones(symbol: activeSymbol.symbol, currentPrice: currentPrice)
             }
             
             let result = try await assistantAIServiceShared.generateGPTAnalysis(
@@ -2033,19 +2052,33 @@ struct AIAssistantView: View {
     
     private var indicateursContent: some View {
         VStack(alignment: .leading, spacing: AppSpacing.lg) {
-            // Barre de recherche d'actifs
+            // Barre de recherche d'actifs (optional binding)
             SymbolSearchBar(selectedSymbol: $selectedSymbol)
                 .padding(.bottom, AppSpacing.sm)
-            
+
+            if selectedSymbol == nil {
+                // Aucun actif sélectionné
+                VStack(spacing: AppSpacing.sm) {
+                    Image(systemName: "magnifyingglass")
+                        .font(.system(size: 36))
+                        .foregroundColor(AppColors.textTertiary.opacity(0.5))
+                    Text(t("selectAssetToAnalyze"))
+                        .font(AppTypography.bodySmall)
+                        .foregroundColor(AppColors.textSecondary)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, AppSpacing.xl)
+            } else {
             // Wave Trend Oscillator
             wtDashboardSection
-            
+
             // VMC Oscillator (sous le Wave Trend)
             vmcOscillatorSection
-            
+
             // Liquidity Heatmap (BTC uniquement)
             liquidityHeatmapSection
-            
+
             // MTF Dashboard (RSI + VMC combinés)
             mtfdashboardSection
             
@@ -2152,15 +2185,16 @@ struct AIAssistantView: View {
                     riskScore: appState.riskScore
                 )
             }
+            } // end else (selectedSymbol != nil)
         }
     }
-    
+
     // MARK: - MTF Dashboard Section (RSI + VMC combinés)
     
     @ViewBuilder
     private var mtfdashboardSection: some View {
-        if let snapshot = mtfSnapshot {
-            MTFDashboardView(snapshot: snapshot, symbol: selectedSymbol.symbol)
+        if let snapshot = mtfSnapshot, let sym = selectedSymbol {
+            MTFDashboardView(snapshot: snapshot, symbol: sym.symbol)
                 .padding(.bottom, AppSpacing.md)
         } else if isLoadingMTF {
             HStack {
@@ -2179,9 +2213,9 @@ struct AIAssistantView: View {
     
     @ViewBuilder
     private var liquidityHeatmapSection: some View {
-        if selectedSymbol.isCrypto {
-            LiquidityHeatmapView(symbol: selectedSymbol.symbol)
-                .id("heatmap_\(selectedSymbol.symbol)")  // force recréation au changement de symbole
+        if let sym = selectedSymbol, sym.isCrypto {
+            LiquidityHeatmapView(symbol: sym.symbol)
+                .id("heatmap_\(sym.symbol)")  // force recréation au changement de symbole
                 .padding(.bottom, AppSpacing.md)
         }
     }
@@ -2190,10 +2224,10 @@ struct AIAssistantView: View {
     
     @ViewBuilder
     private var vmcOscillatorSection: some View {
-        if let snapshot = vmcOscSnapshot {
+        if let snapshot = vmcOscSnapshot, let sym = selectedSymbol {
             VMCOscillatorView(
                 snapshot: snapshot,
-                symbol: selectedSymbol.symbol,
+                symbol: sym.symbol,
                 currentTimeframe: vmcOscTimeframe,
                 onTimeframeChange: { newTimeframe in
                     vmcOscTimeframe = newTimeframe
@@ -2219,10 +2253,10 @@ struct AIAssistantView: View {
     
     @ViewBuilder
     private var wtDashboardSection: some View {
-        if let snapshot = wtSnapshot {
+        if let snapshot = wtSnapshot, let sym = selectedSymbol {
             WTDashboardView(
                 snapshot: snapshot,
-                symbol: selectedSymbol.symbol,
+                symbol: sym.symbol,
                 currentTimeframe: wtTimeframe,
                 onTimeframeChange: { newTimeframe in
                     wtTimeframe = newTimeframe
@@ -2290,12 +2324,13 @@ struct AIAssistantView: View {
     }
     
     private func loadWTSnapshot(timeframe: WTTimeframe? = nil) async {
+        guard let activeSymbol = selectedSymbol else { return }
         let selectedTimeframe = timeframe ?? wtTimeframe
         isLoadingWT = true
         defer { isLoadingWT = false }
         do {
             let snapshot = try await WTService.shared.fetchWTSnapshotCached(
-                symbol: selectedSymbol.symbol,
+                symbol: activeSymbol.symbol,
                 interval: selectedTimeframe.binanceInterval,
                 limit: 200,
                 config: WTConfig.default
@@ -2311,7 +2346,7 @@ struct AIAssistantView: View {
                     ) {
                         // Nouveau signal détecté - envoyer une notification
                         PushService.shared.sendWTSignalNotification(
-                            symbol: selectedSymbol.symbol,
+                            symbol: activeSymbol.symbol,
                             signal: currentSignal,
                             timeframe: selectedTimeframe.displayName,
                             bias: snapshot.currentMarketBias
@@ -2333,12 +2368,13 @@ struct AIAssistantView: View {
     // MARK: - Load VMC Oscillator Snapshot
     
     private func loadVMCOscillatorSnapshot(timeframe: WTTimeframe? = nil) async {
+        guard let activeSymbol = selectedSymbol else { return }
         let tf = timeframe ?? vmcOscTimeframe
         isLoadingVMCOsc = true
         defer { isLoadingVMCOsc = false }
         do {
             let snapshot = try await VMCService.shared.fetchVMCOscillatorSnapshot(
-                symbol: selectedSymbol.symbol,
+                symbol: activeSymbol.symbol,
                 interval: tf.binanceInterval,
                 limit: 200,
                 preset: .swing
@@ -2352,11 +2388,12 @@ struct AIAssistantView: View {
     // MARK: - Load MTF Snapshot
     
     private func loadMTFSnapshot() async {
+        guard let activeSymbol = selectedSymbol else { return }
         isLoadingMTF = true
         defer { isLoadingMTF = false }
-        
+
         do {
-            let snapshot = try await MTFService.shared.fetchMTFSnapshotCached(symbol: selectedSymbol.symbol)
+            let snapshot = try await MTFService.shared.fetchMTFSnapshotCached(symbol: activeSymbol.symbol)
             await MainActor.run {
                 self.mtfSnapshot = snapshot
             }
@@ -2369,11 +2406,11 @@ struct AIAssistantView: View {
         VStack(alignment: .leading, spacing: AppSpacing.lg) {
             PhotoAnalysisView()
                 .environmentObject(appState)
-            
+
             // Heatmap de liquidation si crypto sélectionné
-            if selectedSymbol.isCrypto {
-                LiquidityHeatmapView(symbol: selectedSymbol.symbol)
-                    .id("photo_heatmap_\(selectedSymbol.symbol)")
+            if let sym = selectedSymbol, sym.isCrypto {
+                LiquidityHeatmapView(symbol: sym.symbol)
+                    .id("photo_heatmap_\(sym.symbol)")
             }
         }
     }
