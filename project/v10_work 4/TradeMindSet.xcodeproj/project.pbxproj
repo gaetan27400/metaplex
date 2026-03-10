@@ -1,0 +1,747 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C87477862F06DA410057892E /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = C87477852F06DA410057892E /* FirebaseAI */; };
+		C87477882F06DA410057892E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C87477872F06DA410057892E /* FirebaseAnalytics */; };
+		C874778A2F06DA410057892E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C87477892F06DA410057892E /* FirebaseAuth */; };
+		C874778C2F06DA410057892E /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = C874778B2F06DA410057892E /* FirebaseCore */; };
+		C874778E2F06DA410057892E /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C874778D2F06DA410057892E /* FirebaseDatabase */; };
+		C87477902F06DA410057892E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C874778F2F06DA410057892E /* FirebaseFirestore */; };
+		C87477922F06DA410057892E /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C87477912F06DA410057892E /* FirebaseFirestoreCombine-Community */; };
+		C87477942F06DA410057892E /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = C87477932F06DA410057892E /* FirebaseFunctions */; };
+		C87477962F06DA410057892E /* FirebaseFunctionsCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C87477952F06DA410057892E /* FirebaseFunctionsCombine-Community */; };
+		C87477982F06DA410057892E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C87477972F06DA410057892E /* FirebaseStorage */; };
+		C874779A2F06DA410057892E /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C87477992F06DA410057892E /* FirebaseStorageCombine-Community */; };
+		C8C01E3F2F26AFB900D29398 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = C8C01E3E2F26AFB900D29398 /* SwiftSoup */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C8C44D352E9461980061AFEC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8C44D1F2E9461910061AFEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C8C44D262E9461910061AFEC;
+			remoteInfo = "Journal de trading 2025";
+		};
+		C8C44D3F2E9461980061AFEC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8C44D1F2E9461910061AFEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C8C44D262E9461910061AFEC;
+			remoteInfo = "Journal de trading 2025";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C831B3492F461CFE00BC2F38 /* TradeMindSet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = TradeMindSet.xcodeproj; sourceTree = "<group>"; };
+		C8C036542F45D13400D29398 /* TradeMindSet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = TradeMindSet.xcodeproj; sourceTree = "<group>"; };
+		C8C44D272E9461910061AFEC /* TradeMindSet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TradeMindSet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8C44D342E9461980061AFEC /* TradeMindSetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TradeMindSetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8C44D3E2E9461980061AFEC /* TradeMindSetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TradeMindSetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8F3F4D02F53349A006B97F6 /* TradeMindSet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = TradeMindSet.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C8C44D292E9461910061AFEC /* . */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = .;
+			sourceTree = "<group>";
+		};
+		C8C44D372E9461980061AFEC /* ../Journal de tradingTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "../Journal de tradingTests";
+			sourceTree = "<group>";
+		};
+		C8C44D412E9461980061AFEC /* ../Journal de tradingUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "../Journal de tradingUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C8C44D242E9461910061AFEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C874779A2F06DA410057892E /* FirebaseStorageCombine-Community in Frameworks */,
+				C874778E2F06DA410057892E /* FirebaseDatabase in Frameworks */,
+				C87477882F06DA410057892E /* FirebaseAnalytics in Frameworks */,
+				C87477962F06DA410057892E /* FirebaseFunctionsCombine-Community in Frameworks */,
+				C87477982F06DA410057892E /* FirebaseStorage in Frameworks */,
+				C8C01E3F2F26AFB900D29398 /* SwiftSoup in Frameworks */,
+				C874778A2F06DA410057892E /* FirebaseAuth in Frameworks */,
+				C87477942F06DA410057892E /* FirebaseFunctions in Frameworks */,
+				C874778C2F06DA410057892E /* FirebaseCore in Frameworks */,
+				C87477862F06DA410057892E /* FirebaseAI in Frameworks */,
+				C87477902F06DA410057892E /* FirebaseFirestore in Frameworks */,
+				C87477922F06DA410057892E /* FirebaseFirestoreCombine-Community in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8C44D312E9461980061AFEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8C44D3B2E9461980061AFEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C831B34D2F461CFE00BC2F38 /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C8C036572F45D13400D29398 /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C8C44D1E2E9461910061AFEC = {
+			isa = PBXGroup;
+			children = (
+				C8C44D292E9461910061AFEC /* . */,
+				C8C44D372E9461980061AFEC /* ../Journal de tradingTests */,
+				C8C44D412E9461980061AFEC /* ../Journal de tradingUITests */,
+				C8C44D282E9461910061AFEC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C8C44D282E9461910061AFEC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C8C44D272E9461910061AFEC /* TradeMindSet.app */,
+				C8C44D342E9461980061AFEC /* TradeMindSetTests.xctest */,
+				C8C44D3E2E9461980061AFEC /* TradeMindSetUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C8F3F4D52F53349A006B97F6 /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C8C44D262E9461910061AFEC /* TradeMindSet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C8C44D482E9461980061AFEC /* Build configuration list for PBXNativeTarget "TradeMindSet" */;
+			buildPhases = (
+				C8C44D232E9461910061AFEC /* Sources */,
+				C8C44D242E9461910061AFEC /* Frameworks */,
+				C8C44D252E9461910061AFEC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C8C44D292E9461910061AFEC /* . */,
+			);
+			name = TradeMindSet;
+			packageProductDependencies = (
+				C87477852F06DA410057892E /* FirebaseAI */,
+				C87477872F06DA410057892E /* FirebaseAnalytics */,
+				C87477892F06DA410057892E /* FirebaseAuth */,
+				C874778B2F06DA410057892E /* FirebaseCore */,
+				C874778D2F06DA410057892E /* FirebaseDatabase */,
+				C874778F2F06DA410057892E /* FirebaseFirestore */,
+				C87477912F06DA410057892E /* FirebaseFirestoreCombine-Community */,
+				C87477932F06DA410057892E /* FirebaseFunctions */,
+				C87477952F06DA410057892E /* FirebaseFunctionsCombine-Community */,
+				C87477972F06DA410057892E /* FirebaseStorage */,
+				C87477992F06DA410057892E /* FirebaseStorageCombine-Community */,
+				C8C01E3E2F26AFB900D29398 /* SwiftSoup */,
+			);
+			productName = "Journal de trading 2025";
+			productReference = C8C44D272E9461910061AFEC /* TradeMindSet.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C8C44D332E9461980061AFEC /* TradeMindSetTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C8C44D4B2E9461980061AFEC /* Build configuration list for PBXNativeTarget "TradeMindSetTests" */;
+			buildPhases = (
+				C8C44D302E9461980061AFEC /* Sources */,
+				C8C44D312E9461980061AFEC /* Frameworks */,
+				C8C44D322E9461980061AFEC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C8C44D362E9461980061AFEC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C8C44D372E9461980061AFEC /* ../Journal de tradingTests */,
+			);
+			name = TradeMindSetTests;
+			packageProductDependencies = (
+			);
+			productName = "Journal de trading 2025Tests";
+			productReference = C8C44D342E9461980061AFEC /* TradeMindSetTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C8C44D3D2E9461980061AFEC /* TradeMindSetUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C8C44D4E2E9461980061AFEC /* Build configuration list for PBXNativeTarget "TradeMindSetUITests" */;
+			buildPhases = (
+				C8C44D3A2E9461980061AFEC /* Sources */,
+				C8C44D3B2E9461980061AFEC /* Frameworks */,
+				C8C44D3C2E9461980061AFEC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C8C44D402E9461980061AFEC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C8C44D412E9461980061AFEC /* ../Journal de tradingUITests */,
+			);
+			name = TradeMindSetUITests;
+			packageProductDependencies = (
+			);
+			productName = "Journal de trading 2025UITests";
+			productReference = C8C44D3E2E9461980061AFEC /* TradeMindSetUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C8C44D1F2E9461910061AFEC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					C8C44D262E9461910061AFEC = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					C8C44D332E9461980061AFEC = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = C8C44D262E9461910061AFEC;
+					};
+					C8C44D3D2E9461980061AFEC = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = C8C44D262E9461910061AFEC;
+					};
+				};
+			};
+			buildConfigurationList = C8C44D222E9461910061AFEC /* Build configuration list for PBXProject "TradeMindSet" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C8C44D1E2E9461910061AFEC;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C87477842F06DA410057892E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				C8C01E3D2F26AF6500D29398 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C8C44D282E9461910061AFEC /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C831B34D2F461CFE00BC2F38 /* Products */;
+					ProjectRef = C831B3492F461CFE00BC2F38 /* TradeMindSet.xcodeproj */;
+				},
+				{
+					ProductGroup = C8C036572F45D13400D29398 /* Products */;
+					ProjectRef = C8C036542F45D13400D29398 /* TradeMindSet.xcodeproj */;
+				},
+				{
+					ProductGroup = C8F3F4D52F53349A006B97F6 /* Products */;
+					ProjectRef = C8F3F4D02F53349A006B97F6 /* TradeMindSet.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				C8C44D262E9461910061AFEC /* TradeMindSet */,
+				C8C44D332E9461980061AFEC /* TradeMindSetTests */,
+				C8C44D3D2E9461980061AFEC /* TradeMindSetUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C8C44D252E9461910061AFEC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8C44D322E9461980061AFEC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8C44D3C2E9461980061AFEC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C8C44D232E9461910061AFEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8C44D302E9461980061AFEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8C44D3A2E9461980061AFEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C8C44D362E9461980061AFEC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C8C44D262E9461910061AFEC /* TradeMindSet */;
+			targetProxy = C8C44D352E9461980061AFEC /* PBXContainerItemProxy */;
+		};
+		C8C44D402E9461980061AFEC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C8C44D262E9461910061AFEC /* TradeMindSet */;
+			targetProxy = C8C44D3F2E9461980061AFEC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C8C44D462E9461980061AFEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = XPFGSCATZ5;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C8C44D472E9461980061AFEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = XPFGSCATZ5;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C8C44D492E9461980061AFEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = "Journal de trading 2025.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XPFGSCATZ5;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "FOUGERAY.Journal-de-trading-2025";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C8C44D4A2E9461980061AFEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=iphoneos*]" = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = "Journal de trading 2025.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XPFGSCATZ5;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "FOUGERAY.Journal-de-trading-2025";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C8C44D4C2E9461980061AFEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XPFGSCATZ5;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "FOUGERAY.Journal-de-trading-2025Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TradeMindSet.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TradeMindSet";
+			};
+			name = Debug;
+		};
+		C8C44D4D2E9461980061AFEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XPFGSCATZ5;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "FOUGERAY.Journal-de-trading-2025Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TradeMindSet.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TradeMindSet";
+			};
+			name = Release;
+		};
+		C8C44D4F2E9461980061AFEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XPFGSCATZ5;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "FOUGERAY.Journal-de-trading-2025UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Journal de trading 2025";
+			};
+			name = Debug;
+		};
+		C8C44D502E9461980061AFEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XPFGSCATZ5;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "FOUGERAY.Journal-de-trading-2025UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Journal de trading 2025";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C8C44D222E9461910061AFEC /* Build configuration list for PBXProject "TradeMindSet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8C44D462E9461980061AFEC /* Debug */,
+				C8C44D472E9461980061AFEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C8C44D482E9461980061AFEC /* Build configuration list for PBXNativeTarget "TradeMindSet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8C44D492E9461980061AFEC /* Debug */,
+				C8C44D4A2E9461980061AFEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C8C44D4B2E9461980061AFEC /* Build configuration list for PBXNativeTarget "TradeMindSetTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8C44D4C2E9461980061AFEC /* Debug */,
+				C8C44D4D2E9461980061AFEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C8C44D4E2E9461980061AFEC /* Build configuration list for PBXNativeTarget "TradeMindSetUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8C44D4F2E9461980061AFEC /* Debug */,
+				C8C44D502E9461980061AFEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C87477842F06DA410057892E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.0.0;
+			};
+		};
+		C8C01E3D2F26AF6500D29398 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.11.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C87477852F06DA410057892E /* FirebaseAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C87477842F06DA410057892E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAI;
+		};
+		C87477872F06DA410057892E /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C87477842F06DA410057892E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		C87477892F06DA410057892E /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C87477842F06DA410057892E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		C874778B2F06DA410057892E /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C87477842F06DA410057892E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		C874778D2F06DA410057892E /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C87477842F06DA410057892E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		C874778F2F06DA410057892E /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C87477842F06DA410057892E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		C87477912F06DA410057892E /* FirebaseFirestoreCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C87477842F06DA410057892E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreCombine-Community";
+		};
+		C87477932F06DA410057892E /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C87477842F06DA410057892E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+		C87477952F06DA410057892E /* FirebaseFunctionsCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C87477842F06DA410057892E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFunctionsCombine-Community";
+		};
+		C87477972F06DA410057892E /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C87477842F06DA410057892E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		C87477992F06DA410057892E /* FirebaseStorageCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C87477842F06DA410057892E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseStorageCombine-Community";
+		};
+		C8C01E3E2F26AFB900D29398 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C8C01E3D2F26AF6500D29398 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = C8C44D1F2E9461910061AFEC /* Project object */;
+}

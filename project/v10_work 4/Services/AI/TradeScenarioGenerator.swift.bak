@@ -1,0 +1,422 @@
+//
+//  TradeScenarioGenerator.swift
+//  Journal de trading 2025
+//
+//  Génération dynamique des scénarios de trade basés sur MTF/WT
+
+import Foundation
+
+class TradeScenarioGenerator {
+    
+    // MARK: - Generate Scenarios
+    
+    static func generateScenarios(
+        symbol: String,
+        currentPrice: Double?,
+        mtfSnapshot: MTFSnapshot?,
+        wtSnapshot: WTSnapshot?
+    ) -> (bull: TradeScenario, bear: TradeScenario, bullExplanation: ScenarioExplanation, bearExplanation: ScenarioExplanation) {
+        
+        // Si pas de données, retourner des scénarios vides
+        guard let price = currentPrice else {
+            return (
+                TradeScenario.empty,
+                TradeScenario.empty,
+                ScenarioExplanation.empty,
+                ScenarioExplanation.empty
+            )
+        }
+        
+        // Calculer support et résistance
+        let (support1, support2, resistance1, resistance2) = calculateSupportResistance(
+            price: price,
+            mtfSnapshot: mtfSnapshot,
+            wtSnapshot: wtSnapshot
+        )
+        
+        // Analyser le contexte technique
+        let context = analyzeTechnicalContext(mtf: mtfSnapshot, wt: wtSnapshot)
+        
+        // Générer scénario haussier
+        let bull = generateBullScenario(
+            price: price,
+            support: support1,
+            resistance: resistance1,
+            context: context
+        )
+        
+        // Générer scénario baissier
+        let bear = generateBearScenario(
+            price: price,
+            support: support1,
+            resistance: resistance1,
+            context: context
+        )
+        
+        // Générer explications
+        let bullExplanation = generateBullExplanation(
+            mtf: mtfSnapshot,
+            wt: wtSnapshot,
+            context: context
+        )
+        
+        let bearExplanation = generateBearExplanation(
+            mtf: mtfSnapshot,
+            wt: wtSnapshot,
+            context: context
+        )
+        
+        return (bull, bear, bullExplanation, bearExplanation)
+    }
+    
+    // MARK: - Support/Resistance Calculation
+    
+    private static func calculateSupportResistance(
+        price: Double,
+        mtfSnapshot: MTFSnapshot?,
+        wtSnapshot: WTSnapshot?
+    ) -> (support1: Double, support2: Double, resistance1: Double, resistance2: Double) {
+        
+        // Calcul simple basé sur des pourcentages (à améliorer avec des vrais pivots)
+        let support1 = price * 0.98   // -2%
+        let support2 = price * 0.96   // -4%
+        let resistance1 = price * 1.02 // +2%
+        let resistance2 = price * 1.04 // +4%
+        
+        return (support1, support2, resistance1, resistance2)
+    }
+    
+    // MARK: - Technical Context Analysis
+    
+    private struct TechnicalContext {
+        let isBullish: Bool
+        let isBearish: Bool
+        let strength: Double // 0-1
+        let momentum: Double
+        let rsiOversold: Bool
+        let rsiOverbought: Bool
+        let vmcBullish: Bool
+        let vmcBearish: Bool
+        let confluence: Double
+    }
+    
+    private static func analyzeTechnicalContext(
+        mtf: MTFSnapshot?,
+        wt: WTSnapshot?
+    ) -> TechnicalContext {
+        
+        guard let mtf = mtf else {
+            return TechnicalContext(
+                isBullish: false,
+                isBearish: false,
+                strength: 0.5,
+                momentum: 0,
+                rsiOversold: false,
+                rsiOverbought: false,
+                vmcBullish: false,
+                vmcBearish: false,
+                confluence: 0
+            )
+        }
+        
+        // Analyser signal MTF
+        let isBullish = mtf.globalSignal == .buy || mtf.globalSignal == .bullish
+        let isBearish = mtf.globalSignal == .sell || mtf.globalSignal == .bearish
+        
+        // Calculer strength basé sur le score combiné
+        let normalizedScore = (mtf.globalCombinedScore + 100) / 200 // -100...+100 → 0...1
+        let strength = normalizedScore
+        
+        // Momentum depuis WT
+        let momentum = wt?.currentMomentum ?? 0
+        
+        // RSI conditions
+        let rsiOversold = mtf.globalRSI < 30
+        let rsiOverbought = mtf.globalRSI > 70
+        
+        // VMC conditions
+        let vmcBullish = mtf.globalVMC < -20
+        let vmcBearish = mtf.globalVMC > 20
+        
+        // Confluence
+        let confluence = mtf.confluencePercent / 100
+        
+        return TechnicalContext(
+            isBullish: isBullish,
+            isBearish: isBearish,
+            strength: strength,
+            momentum: momentum,
+            rsiOversold: rsiOversold,
+            rsiOverbought: rsiOverbought,
+            vmcBullish: vmcBullish,
+            vmcBearish: vmcBearish,
+            confluence: confluence
+        )
+    }
+    
+    // MARK: - Bull Scenario Generation
+    
+    private static func generateBullScenario(
+        price: Double,
+        support: Double,
+        resistance: Double,
+        context: TechnicalContext
+    ) -> TradeScenario {
+        
+        // Type d'entrée
+        let entryType: String
+        if context.rsiOversold && context.vmcBullish {
+            entryType = "Rejet support"
+        } else if context.isBullish && context.strength > 0.6 {
+            entryType = "Cassure résistance"
+        } else if context.momentum > 3 {
+            entryType = "Pullback haussier"
+        } else {
+            entryType = "Retest support"
+        }
+        
+        // Entry : légèrement au-dessus du support
+        let entry = support * 1.005 // +0.5%
+        
+        // Stop : en dessous du support
+        let stop = support * 0.995 // -0.5%
+        
+        // Risk distance
+        let riskDistance = entry - stop
+        
+        // TPs basés sur Risk/Reward
+        let tp1 = entry + (riskDistance * 1.0)  // RR 1:1
+        let tp2 = entry + (riskDistance * 2.0)  // RR 2:1
+        let tp3 = entry + (riskDistance * 3.0)  // RR 3:1
+        
+        // Calcul des %
+        let riskPercent = ((stop - entry) / entry) * 100
+        let potentialTP2Percent = ((tp2 - entry) / entry) * 100
+        
+        return TradeScenario(
+            entryType: entryType,
+            entry: entry,
+            stop: stop,
+            tp1: tp1,
+            tp1RR: "RR 1:1",
+            tp2: tp2,
+            tp2RR: "RR 2:1",
+            tp3: tp3,
+            tp3RR: "RR 3:1",
+            riskPercent: riskPercent,
+            potentialTP2Percent: potentialTP2Percent
+        )
+    }
+    
+    // MARK: - Bear Scenario Generation
+    
+    private static func generateBearScenario(
+        price: Double,
+        support: Double,
+        resistance: Double,
+        context: TechnicalContext
+    ) -> TradeScenario {
+        
+        // Type d'entrée
+        let entryType: String
+        if context.rsiOverbought && context.vmcBearish {
+            entryType = "Rejet résistance"
+        } else if context.isBearish && context.strength < 0.4 {
+            entryType = "Cassure support"
+        } else if context.momentum < -3 {
+            entryType = "Pullback baissier"
+        } else {
+            entryType = "Retest résistance"
+        }
+        
+        // Entry : légèrement en dessous de la résistance
+        let entry = resistance * 0.995 // -0.5%
+        
+        // Stop : au-dessus de la résistance
+        let stop = resistance * 1.005 // +0.5%
+        
+        // Risk distance
+        let riskDistance = stop - entry
+        
+        // TPs basés sur Risk/Reward
+        let tp1 = entry - (riskDistance * 1.0)  // RR 1:1
+        let tp2 = entry - (riskDistance * 2.0)  // RR 2:1
+        let tp3 = entry - (riskDistance * 3.0)  // RR 3:1
+        
+        // Calcul des %
+        let riskPercent = ((stop - entry) / entry) * 100
+        let potentialTP2Percent = ((entry - tp2) / entry) * 100
+        
+        return TradeScenario(
+            entryType: entryType,
+            entry: entry,
+            stop: stop,
+            tp1: tp1,
+            tp1RR: "RR 1:1",
+            tp2: tp2,
+            tp2RR: "RR 2:1",
+            tp3: tp3,
+            tp3RR: "RR 3:1",
+            riskPercent: riskPercent,
+            potentialTP2Percent: potentialTP2Percent
+        )
+    }
+    
+    // MARK: - Bull Explanation Generation
+    
+    private static func generateBullExplanation(
+        mtf: MTFSnapshot?,
+        wt: WTSnapshot?,
+        context: TechnicalContext
+    ) -> ScenarioExplanation {
+        
+        guard let mtf = mtf else {
+            return ScenarioExplanation.empty
+        }
+        
+        var reasons: [String] = []
+        var validationConditions: [String] = []
+        var invalidation: [String] = []
+        var risks: [String] = []
+        
+        // RAISONS
+        if context.rsiOversold {
+            reasons.append("RSI en zone de survente (\(Int(mtf.globalRSI))), suggérant un rebond imminent")
+        }
+        
+        if context.vmcBullish {
+            reasons.append("VMC en territoire négatif (\(Int(mtf.globalVMC))), indiquant une pression acheteuse potentielle")
+        }
+        
+        if context.isBullish {
+            reasons.append("Signal MTF global haussier avec confluence de \(Int(mtf.confluencePercent))%")
+        }
+        
+        if let wt = wt, wt.currentMomentum > 0 {
+            reasons.append("Momentum positif (\(String(format: "%.1f", wt.currentMomentum))), tendance haussière confirmée")
+        }
+        
+        if reasons.isEmpty {
+            reasons.append("Contexte neutre, scénario opportuniste sur rejet support")
+        }
+        
+        // CONDITIONS DE VALIDATION
+        validationConditions.append("Cassure confirmée du niveau d'entrée avec volume supérieur à la moyenne")
+        validationConditions.append("Clôture H1 au-dessus du support avec retest réussi")
+        
+        // INVALIDATION
+        invalidation.append("Cassure nette du stop loss avec clôture en dessous du support")
+        
+        // RISQUES
+        if context.confluence < 0.5 {
+            risks.append("Confluence faible (\(Int(mtf.confluencePercent))%), divergence possible entre timeframes")
+        }
+        
+        if let wt = wt, abs(wt.currentMomentum) > 5 {
+            risks.append("Volatilité élevée, risque de stop loss prématuré")
+        }
+        
+        if risks.isEmpty {
+            risks.append("Contexte macro incertain, surveiller les news économiques")
+        }
+        
+        return ScenarioExplanation(
+            reasons: reasons,
+            validationConditions: validationConditions,
+            invalidation: invalidation,
+            risks: risks
+        )
+    }
+    
+    // MARK: - Bear Explanation Generation
+    
+    private static func generateBearExplanation(
+        mtf: MTFSnapshot?,
+        wt: WTSnapshot?,
+        context: TechnicalContext
+    ) -> ScenarioExplanation {
+        
+        guard let mtf = mtf else {
+            return ScenarioExplanation.empty
+        }
+        
+        var reasons: [String] = []
+        var validationConditions: [String] = []
+        var invalidation: [String] = []
+        var risks: [String] = []
+        
+        // RAISONS
+        if context.rsiOverbought {
+            reasons.append("RSI en zone de surachat (\(Int(mtf.globalRSI))), correction probable")
+        }
+        
+        if context.vmcBearish {
+            reasons.append("VMC en territoire positif (\(Int(mtf.globalVMC))), indiquant une pression vendeuse")
+        }
+        
+        if context.isBearish {
+            reasons.append("Signal MTF global baissier avec confluence de \(Int(mtf.confluencePercent))%")
+        }
+        
+        if let wt = wt, wt.currentMomentum < 0 {
+            reasons.append("Momentum négatif (\(String(format: "%.1f", wt.currentMomentum))), tendance baissière confirmée")
+        }
+        
+        if reasons.isEmpty {
+            reasons.append("Contexte neutre, scénario opportuniste sur rejet résistance")
+        }
+        
+        // CONDITIONS DE VALIDATION
+        validationConditions.append("Cassure confirmée sous le niveau d'entrée avec volume vendeur fort")
+        validationConditions.append("Échec de retest de la résistance comme support")
+        
+        // INVALIDATION
+        invalidation.append("Reprise haussière au-dessus du stop loss avec clôture au-dessus de la résistance")
+        
+        // RISQUES
+        if context.confluence < 0.5 {
+            risks.append("Confluence faible (\(Int(mtf.confluencePercent))%), signaux contradictoires")
+        }
+        
+        if let wt = wt, abs(wt.currentMomentum) > 5 {
+            risks.append("Forte volatilité, risque de squeeze haussier")
+        }
+        
+        if risks.isEmpty {
+            risks.append("News imprévue pouvant inverser la tendance rapidement")
+        }
+        
+        return ScenarioExplanation(
+            reasons: reasons,
+            validationConditions: validationConditions,
+            invalidation: invalidation,
+            risks: risks
+        )
+    }
+    
+    // MARK: - Current Price Fetcher (Helper)
+    
+    static func getCurrentPrice(for symbol: String) async -> Double? {
+        // TODO: Implémenter fetch du prix en temps réel depuis Binance ou TwelveData
+        // Pour l'instant, retourner nil pour utiliser un prix estimé
+        return nil
+    }
+}
+
+// MARK: - TradeScenario Extension
+
+extension TradeScenario {
+    static let empty = TradeScenario(
+        entryType: "Données insuffisantes",
+        entry: nil,
+        stop: nil,
+        tp1: nil,
+        tp1RR: nil,
+        tp2: nil,
+        tp2RR: nil,
+        tp3: nil,
+        tp3RR: nil,
+        riskPercent: nil,
+        potentialTP2Percent: nil
+    )
+}
